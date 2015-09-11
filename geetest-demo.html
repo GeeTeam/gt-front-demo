@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>gt-curtain</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .one {
+            height: 100%;
+            width: 330px;
+            min-height: 186px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .gt_holder.float {
+            display: inline-block;
+            margin-top: 150px;
+        }
+
+        .one > * {
+            vertical-align: bottom;
+        }
+
+        canvas {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .btn {
+            margin-top: 20px;
+            border: 1px solid #080;
+            border-radius: 10px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #080;
+            color: #FFFFFF;
+        }
+
+        #refresh {
+            background-color: #080;
+        }
+    </style>
+</head>
+<body>
+<div id="geetest"></div>
+<div>
+    <a class="btn" id="curtain-btn">refresh curtain embed</a>
+    <a class="btn" id="slide-btn">refresh slide embed</a>
+    <a class="btn" id="canvas-btn">refresh canvas embed</a>
+    <a class="btn" id="refresh0">Geetest[0].refresh()</a>
+</div>
+<div id="log"></div>
+<script src="http://api.geetest.com/get.php?callback=cb"></script>
+<!--<script src="static/js/geetest.4.0.2.js"></script>-->
+<script>
+//    setTimeout(cb, 1000);
+
+    var cb = function () {
+        var ele = function (str) {
+            return document.querySelector(str);
+        };
+        var gtEle = ele('#geetest');
+        var logEle = ele('#log');
+        var newGeetest = function (type, product, gt, a) {
+            var config = {
+                product: product,
+                gt: gt,
+                lang: 'zh-cn',
+                width: '300',
+                a: a
+            };
+            var captchaObj = new Geetest(config);
+
+            var ele = document.createElement('div');
+            ele.className = 'one';
+            var box = document.createElement('div');
+            ele.appendChild(box);
+            captchaObj.appendTo(box);
+            if (product === 'popup') {
+                var btn = document.createElement('div');
+                btn.className = 'btn';
+                btn.appendChild(document.createTextNode('按钮（' + type + '）'));
+                ele.appendChild(btn);
+                captchaObj.bindOn(btn);
+            }
+            gtEle.appendChild(ele);
+            return captchaObj;
+        };
+
+        var log = function (str) {
+            logEle.appendChild(document.createElement('br'));
+            logEle.appendChild(document.createTextNode(str));
+        };
+
+        var oldApis = ['gt_custom_ajax', 'gt_custom_refresh', 'gt_custom_error', 'onGeetestLoaded'];
+        for (var i = 0, len = oldApis.length; i < len; i = i + 1) {
+            (function (i) {
+                window[oldApis[i]] = function () {
+                    log('oldApi: ' + oldApis[i]);
+                }
+            }(i));
+        }
+        var apis = ['onReady', 'onRefresh', 'onStatusChange', 'onSuccess', 'onError', 'onFail'];
+
+        var mode = location.href.split('?')[1] || '3';
+
+        var gt = 'd1dd075ff0ba6bbab3494f7bb1358c43';
+        var slideEmbed = newGeetest('slide', 'embed', gt, false);
+        var slideFloat = newGeetest('slide', 'float', gt, false);
+        var slidePopup = newGeetest('slide', 'popup', gt, false);
+        for (var i = 0, len = apis.length; i < len; i = i + 1) {
+            (function (i) {
+                slideEmbed[apis[i]](function () {
+                    log('slider embed api: ' + apis[i]);
+                })
+            }(i));
+        }
+
+        var curtainEmbed, curtainFloat, curtainPopup;
+        if (mode === '6' || mode === '9') {
+            gt = '7fa05624d84017d681bcbe16036a1267';
+            curtainEmbed = newGeetest('slide', 'embed', gt, false);
+            curtainFloat = newGeetest('slide', 'float', gt, false);
+            curtainPopup = newGeetest('slide', 'popup', gt, false);
+
+            for (var i = 0, len = apis.length; i < len; i = i + 1) {
+                (function (i) {
+                    curtainEmbed[apis[i]](function () {
+                        log('curtain embed api: ' + apis[i]);
+                    })
+                }(i));
+            }
+        }
+        var canvasEmbed, canvasFloat, canvasPopup;
+        if (mode === '9') {
+            gt = 'ad872a4e1a51888967bdb7cb45589605';
+            canvasEmbed = newGeetest('slide', 'embed', gt, true);
+            canvasFloat = newGeetest('slide', 'float', gt, true);
+            canvasPopup = newGeetest('slide', 'popup', gt, true);
+
+            for (var i = 0, len = apis.length; i < len; i = i + 1) {
+                (function (i) {
+                    canvasEmbed[apis[i]](function () {
+                        log('canvas embed api: ' + apis[i]);
+                    })
+                }(i));
+            }
+        }
+
+        var curtainBtn = ele('#curtain-btn');
+        var slideBtn = ele('#slide-btn');
+        var canvasBtn = ele('#canvas-btn');
+        curtainBtn.addEventListener('click', function () {
+            curtainEmbed.refresh();
+        });
+        slideBtn.addEventListener('click', function () {
+            slideEmbed.refresh();
+        });
+        canvasBtn.addEventListener('click', function () {
+            canvasEmbed.refresh();
+        });
+        var refresh0 = ele('#refresh0');
+        refresh0.addEventListener('click', function () {
+            window.GeeTest[0].refresh();
+        });
+
+        window.slideEmbed = slideEmbed;
+        window.slideFloat = slideFloat;
+        window.slidePopup = slidePopup;
+        window.curtainEmbed = curtainEmbed;
+        window.curtainFloat = curtainFloat;
+        window.curtainPopup = curtainPopup;
+        window.canvasEmbed = canvasEmbed;
+        window.canvasFloat = canvasFloat;
+        window.canvasPopup = canvasPopup;
+    };
+
+</script>
+</body>
+</html>
