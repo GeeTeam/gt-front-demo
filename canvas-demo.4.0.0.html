@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=320, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>gt-front-canvas Demo Page</title>
+  <!-- <link rel="stylesheet" href=""> -->
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .button {
+      margin: 20px auto;
+      display: block;
+      width: 100px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      background-color: #A5C545;
+      color: white;
+    }
+    .geetest {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: gray;
+      opacity: 0.7;
+    }
+    .wrap {
+      width: 300px;
+      margin: 10px auto;
+      text-align: center;
+      background-color: #fff;
+      z-index: 2;
+      position: relative;
+    }
+    .gt_wrapper {
+      margin: 0 auto;
+    }
+    .wrap .top {
+      padding: 0 8px;
+      height: 44px;
+      z-index: 1;
+      position: relative;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .wrap .title {
+      line-height: 45px;
+      width: 200px;
+      margin: 0 auto;
+    }
+
+    .exit {
+      background-image: url('./img/return.png');
+      -moz-background-size: 12px auto;
+      -o-background-size: 12px auto;
+      -webkit-background-size: 12px auto;
+      background-size: 12px auto;
+      width: 12px;
+      height: 22px;
+      display: inline-block;
+      vertical-align: middle;
+      position: absolute;
+      left: 8px;
+      top: 11px;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      z-index: 10;
+    }
+    .exit:active {
+      background-image: url('./img/return_hover.png');
+    }
+  </style>
+</head>
+<body>
+  <a class="button" id="button">
+    点我
+  </a>
+
+  <div class="geetest">
+    <div class="bg"></div>
+    <div class="wrap" id="my_gt">
+      <div class="top">
+        <a class="exit" id="close" href="javascript:;"></a>
+        <div class="title">
+          请通过验证
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script type="text/javascript" src="http://api.geetest.com/get.php?callback=cb"></script>
+  <script>
+    var qs = function(e) {
+      return document.querySelector(e);
+    };
+    var button = document.getElementById("button");
+
+    var geetest = qs(".geetest");
+    button.onclick = function() {
+      geetest.style.display = "block";
+    };
+    var close = document.getElementById("close");
+    close.onclick = function() {
+      geetest.style.display = "none";
+    };
+    qs(".bg").onclick = function() {
+      geetest.style.display = "none";
+    };
+    var cb = function () {
+      var gt = '09d63b4c30fd364f8e6c7c602f13ea56'; // TODO set your own gt-id
+      var captchaObj = new window.Geetest({
+        gt: gt,
+        product: 'embed',
+        width: 300 // TODO set width
+      });
+      captchaObj.appendTo('#my_gt');
+      captchaObj.onSuccess(function () {
+        qs('#geetest_' + this.id).parentNode.parentNode.style.display = "none";
+      });
+    };
+  </script>
+</body>
+</html>
