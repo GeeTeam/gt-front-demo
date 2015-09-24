@@ -67,7 +67,15 @@
 
     var cb = function () {
         var ele = function (str) {
-            return document.querySelector(str);
+            if (document.querySelector) {
+                return document.querySelector(str);
+            } else if (str.indexOf('#') > -1) {
+                return document.getElementById(str.replace('#', ''));
+            } else if (str.indexOf('.') > -1) {
+                return document.getElementsByClassName(str.replace('.', ''))[0];
+            } else {
+                return document.getElementsByTagName(str)[0];
+            }
         };
         var gtEle = ele('#geetest');
         var logEle = ele('#log');
