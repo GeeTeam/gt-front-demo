@@ -110,6 +110,8 @@
             logEle.appendChild(document.createTextNode(str));
         };
 
+        log(document.getElementById('gt_lib').src);
+
         var oldApis = ['gt_custom_ajax', 'gt_custom_refresh', 'gt_custom_error', 'onGeetestLoaded'];
         for (var i = 0, len = oldApis.length; i < len; i = i + 1) {
             (function (i) {
