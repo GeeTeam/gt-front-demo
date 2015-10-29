@@ -125,9 +125,25 @@
       geetest.style.display = "none";
     };
     window.gt_custom_ajax = function(result, id, message) {
+
       if(result) {
-        qs('#' + id).parentNode.parentNode.style.display = "none";
+
+        var values;
+
+        if (typeof id === "function") {
+
+          values = [id(".geetest_challenge"), id(".geetest_validate"), id(".geetest_seccode")];
+
+        } else {
+
+          values = document.getElementById(id).getElementsByTagName("input");
+
+        }
+
+        console.log(values[0].value, values[1].value, values[2].value);
+
       }
+
     }
   </script>
 
