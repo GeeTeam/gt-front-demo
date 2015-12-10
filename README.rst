@@ -32,6 +32,6 @@ geetest-demo
 -----------------------------------------
 1. gt-canvas demo发布
 
-
+.. 部署页面 http://testcenter.geetest.com/gt-static/static/gt-front-demo/index.html
 
 
