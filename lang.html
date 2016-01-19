@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多语言测试</title>
+</head>
+<body>
+<h1>多语言测试（简体、繁体、英语、日语、韩语）</h1>
+<h2>默认</h2>
+<div id="default"></div>
+<h2>简体</h2>
+<div id="zh"></div>
+<h2>繁体</h2>
+<div id="zh-tw"></div>
+<h2>英语</h2>
+<div id="en"></div>
+<h2>日语</h2>
+<div id="ja"></div>
+<h2>韩语</h2>
+<div id="ko"></div>
+
+<script src="http://api.geetest.com/get.php"></script>
+<script>
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed"
+    }).appendTo("#default");
+
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed",
+        lang: "zh"
+    }).appendTo("#zh");
+
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed",
+        lang: "zh-tw"
+    }).appendTo("#zh-tw");
+
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed",
+        lang: "en"
+    }).appendTo("#en");
+
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed",
+        lang: "ja"
+    }).appendTo("#ja");
+
+    new Geetest({
+        gt: "35a4abe80db3b558a11eb406db20c1e0",
+        product: "embed",
+        lang: "ko"
+    }).appendTo("#ko");
+</script>
+</body>
+</html>
